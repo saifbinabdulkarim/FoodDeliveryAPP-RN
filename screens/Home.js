@@ -7,6 +7,7 @@ import {
   Image,
   TouchableOpacity,
   FlatList,
+  Platform,
 } from 'react-native';
 
 import {icons, images, FONTS, SIZES, COLORS} from '../constants';
@@ -463,9 +464,16 @@ const Home = ({navigation}) => {
     const renderItem = ({item}) => (
       <TouchableOpacity 
       style={{marginBottom: SIZES.padding * 2}}
-      onPress={() => navigation.navigate('Restaurant')}
+      onPress={() => navigation.navigate('Restaurant',
+      {
+        item,
+        currentLocation
+      }
+      )}
       >
-        <View style={{marginBottom: SIZES.padding}}>
+        <View 
+        style={{marginBottom: SIZES.padding}}
+        >
           <Image
             source={item.photo}
             resizeMode={'cover'}
@@ -529,12 +537,13 @@ const Home = ({navigation}) => {
       </TouchableOpacity>
     );
     return (
-      <View>
+      <View  style={{flex: Platform.OS === 'ios' ?1:0}}>
         <FlatList
           data={restaurants}
           keyExtractor={(item) => `${item.id}`}
           renderItem={renderItem}
           contentContainerStyle={{
+            // height:"100%",
             paddingHorizontal: SIZES.padding * 2,
             paddingBottom: 30,
           }}
